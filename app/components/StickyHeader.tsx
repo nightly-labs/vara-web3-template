@@ -53,7 +53,6 @@ const StickyHeader: React.FC = () => {
                 const publicKey = await adapter.accounts.get()
                 if (publicKey.length > 0) {
                   setAddress(publicKey[0].address)
-                  console.log(publicKey[0].address)
                 }
               } catch (error) {
                 await adapter.disconnect().catch(() => {})
@@ -76,14 +75,13 @@ const StickyHeader: React.FC = () => {
               <ActionStarryButton
                 onClick={async () => {
                   const signTransaction = async () => {
-                    const RECEIVER = '5EnRWxJwqLuexBZtbJVTmfAzzc6Fwpw2Gv9AYs1gYHsgvzfH'
+                    const RECEIVER = 'kGhsx1Tfxs7Xiv7ko3f9U8smjf8ccvz1jdFhEV1PNuhczVjTM'
 
                     const api = await getApi()
                     const adapter = await getAdapter()
                     const tx = api.tx.balances.transferKeepAlive(RECEIVER, 5_000)
                     const signedTx = await tx.signAsync(address, { signer: adapter.signer as any })
                     const txId = await signedTx.send()
-                    console.log(txId.toHex())
                     console.log(txId.toString())
                     toast.success('Transaction send!', {
                       action: {
@@ -91,7 +89,7 @@ const StickyHeader: React.FC = () => {
                         onClick: () => {
                           // Open url in a new tab
                           window.open(
-                            `https://explorer.vara-network.io/extrinsic/${txId.toString()}`,
+                            `https://vara.subscan.io/extrinsic/${txId.toString()}`,
                             '_blank'
                           )
                         },
